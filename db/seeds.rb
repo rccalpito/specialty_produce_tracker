@@ -7,3 +7,6 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+Reciept.create!(purchase_date: DateTime.new(2011, 01, 01))
+Item.create!(price: 100.00, qty: 1)
