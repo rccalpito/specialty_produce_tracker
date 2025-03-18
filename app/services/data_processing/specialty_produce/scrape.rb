@@ -10,7 +10,6 @@ module DataProcessing
       def initialize(url)
         @url = URI.open("https://specialtyproduce.com/r/Z4Z4WSZ5VCANS")
         @doc = Nokogiri::HTML(@url)
-        binding.pry
       end
 
       def parsed_data
