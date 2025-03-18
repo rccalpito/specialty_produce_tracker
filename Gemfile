@@ -17,6 +17,7 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 gem "twilio-ruby"
+gem "nokogiri"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -25,7 +26,9 @@ gem "twilio-ruby"
 # gem "rack-cors"
 
 group :development, :test do
+  gem "dotenv-rails"
   gem "factory_bot_rails"
+  gem "pry"
   gem "rspec-rails", "~> 7.0.0"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
