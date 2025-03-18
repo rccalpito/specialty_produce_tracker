@@ -36,9 +36,8 @@ module DataProcessing
       end
 
       def parse_item(item)
-        item_text = item.text.strip  # Extract text from Nokogiri element
+        item_text = item.text.strip
 
-        # Regex to extract item name and price
         match = item_text.match(/^(.*?)\s(?:\d+\.\d+ x .*? @ .*?\s+)?([\d\.]+)$/)
 
         {
