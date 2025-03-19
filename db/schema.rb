@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_12_022405) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_19_052253) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,5 +25,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_12_022405) do
     t.datetime "purchase_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "items_id"
+    t.index ["items_id"], name: "index_reciepts_on_items_id"
   end
+
+  add_foreign_key "reciepts", "items", column: "items_id"
 end
