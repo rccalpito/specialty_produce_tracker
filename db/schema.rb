@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_19_052253) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_20_004055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,15 +19,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_052253) do
     t.integer "qty"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.integer "unit_type", default: 0
+    t.bigint "receipt_id", null: false
+    t.index ["receipt_id"], name: "index_items_on_receipt_id"
   end
 
-  create_table "reciepts", force: :cascade do |t|
+  create_table "receipts", force: :cascade do |t|
     t.datetime "purchase_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "items_id"
-    t.index ["items_id"], name: "index_reciepts_on_items_id"
+    t.decimal "total_price"
+    t.decimal "sales_tax"
+    t.string "receipt_number"
   end
 
-  add_foreign_key "reciepts", "items", column: "items_id"
+  add_foreign_key "items", "receipts"
 end

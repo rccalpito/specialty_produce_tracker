@@ -1,6 +1,8 @@
 class Item < ApplicationRecord
-  belongs_to :reciept
+  enum :unit_type, { per: 0, pound: 1, oz: 2 }
 
-  validates_presence_of :price, presence: :true
-  validates_presence_of :qty, presence: :true
+  belongs_to :receipt
+
+  validates :price, presence: true
+  validates :qty, presence: true
 end

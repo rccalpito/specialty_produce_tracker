@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :items
-  resources :reciepts
+  resources :receipts
 
   post "/webhooks/twilio", to: "webhooks#twilio"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
