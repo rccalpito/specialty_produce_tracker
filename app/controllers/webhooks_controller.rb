@@ -5,11 +5,19 @@ class WebhooksController < ApplicationController
     Rails.logger.info "Incoming Message from: #{params[:From]}"
 
     if validate_message
-      DataProcessing::SpecialtyProduce::Scrape.new(body)
+      parsed_data = scraped_page
+      SpecialtyProduce::CreateFromScrapedPage.new(parsed_data).call
+      render json: { message: "Data processed successfully" }, status: :ok
+    else
+      render json: { error: "Invalid message format" }, status: :unprocessable_entity
     end
   end
 
   private
+
+  def scraped_page
+    SpecialtyProduce::Scrape.new(body).parsed_data
+  end
 
   def validate_message
     return true if body.include? ENV["MATCHED_PHRASE"] # rubocop:disable Style/RedundantReturn

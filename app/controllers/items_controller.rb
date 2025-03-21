@@ -46,6 +46,6 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.expect(item: [ :price, :qty ])
+      # params.expect(item: [ :price, :qty ])
     end
 end
