@@ -38,13 +38,22 @@ module SpecialtyProduce
 
       name_price = item_text.match(/^(.*?)\s(?:\d+\.\d+ x .*? @ .*?\s+)?([\d\.]+)$/)
 
-      quantity = item_text.match(/(\S+)\s*x\s+(\S+)/)
+      quantity_match = item_text.match(/(\S+)\s*x\s*([\d\.]+\s*(?:oz|lb)|oz|lb|bunch|bulb|gal)/)
 
       {
         name: name_price[1].strip,
         price: name_price[2].strip,
-        qty: quantity[0].strip
+        qty: quantity_match[1] ? quantity_match[1].strip : "1",
+        unit_type: enum_type(quantity_match[2])
       } if name_price
+    end
+
+    def enum_type(str)
+      case str.downcase
+      when "lb", "lbs"    then :lbs
+      when "oz"           then :oz
+      else                     :per
+      end
     end
 
     def sales_tax
