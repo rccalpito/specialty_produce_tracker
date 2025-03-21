@@ -17,12 +17,12 @@ module SpecialtyProduce
           name: item_data[:name],
           price: item_data[:price],
           qty: item_data[:qty],
+          unit_type: item_data[:unit_type],
           receipt: receipt
         )
       end
 
     rescue StandardError => e
-      p e
       Rails.logger.error "Failed to create records: #{e.message}"
     end
   end
