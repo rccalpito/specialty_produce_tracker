@@ -43,3 +43,6 @@ end
 group :test do
   gem "shoulda-matchers", "~> 6.0"
 end
+
+gem "graphql", "~> 2.4"
+gem "graphiql-rails"
