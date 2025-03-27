@@ -45,3 +45,4 @@ group :test do
 end
 
 gem "graphql", "~> 2.4"
+gem "graphiql-rails"

@@ -119,6 +119,8 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    graphiql-rails (1.10.4)
+      railties
     graphql (2.4.15)
       base64
       fiber-storage
@@ -374,6 +376,7 @@ DEPENDENCIES
   debug
   dotenv-rails
   factory_bot_rails
+  graphiql-rails
   graphql (~> 2.4)
   kamal
   nokogiri
