@@ -60,12 +60,6 @@ function App() {
   useEffect(() => {
     console.log(receipts)
   }, [receipts])
-  // useEffect(() => {
-  //   axios
-  //     .get('/receipts')
-  //     .then((response) => setReceipts(response.data))
-  //     .catch(console.error);
-  // }, []);
 
   const labels = receipts.map((item) => item.purchaseDate);
   const prices = receipts.map((item) => item.totalPrice);
