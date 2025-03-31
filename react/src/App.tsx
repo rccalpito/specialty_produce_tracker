@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import { Line } from 'react-chartjs-2';
-import axios from 'axios';
+// import axios from 'axios';
+import fetchGraphQL from './hooks/fetchGraphQL';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,10 +16,9 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-type Item = {
-  name: string;
-  price: number;
-  qty: number;
+type Receipts = {
+  purchaseDate: string;
+  totalPrice: number;
 };
 
 export const options = {
@@ -35,17 +35,40 @@ export const options = {
 };
 
 function App() {
-  const [items, setItems] = useState<Item[]>([]);
+  const [receipts, setReceipts] = useState<Receipts[]>([]);
 
   useEffect(() => {
-    axios
-      .get('/items')
-      .then((response) => setItems(response.data))
-      .catch(console.error);
+    const query = `
+      query GetReceipts {
+        receipts {
+          id
+          purchaseDate
+          totalPrice
+        }
+      }
+    `;
+
+    fetchGraphQL(query, {}).then((response) => {
+      if (response.data) {
+        setReceipts(response.data.receipts);
+      } else {
+        console.error('GraphQL error:', response.errors);
+      }
+    });
   }, []);
 
-  const labels = items.map((item) => item.name);
-  const prices = items.map((item) => item.price);
+  useEffect(() => {
+    console.log(receipts)
+  }, [receipts])
+  // useEffect(() => {
+  //   axios
+  //     .get('/receipts')
+  //     .then((response) => setReceipts(response.data))
+  //     .catch(console.error);
+  // }, []);
+
+  const labels = receipts.map((item) => item.purchaseDate);
+  const prices = receipts.map((item) => item.totalPrice);
 
   const data = {
     labels,
@@ -61,7 +84,7 @@ function App() {
 
   return (
     <div>
-      <h1>Items Line Chart</h1>
+      <h1>Receipts Line Chart</h1>
       <Line options={options} data={data} />
     </div>
   );
