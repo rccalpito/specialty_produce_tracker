@@ -7,7 +7,7 @@ module SpecialtyProduce
     attr_accessor :url, :doc
 
     def initialize(url)
-      @url = URI.open("https://specialtyproduce.com/r/Z4Z4WSZ5VCANS")
+      @url = URI.open(url)
       @doc = Nokogiri::HTML(@url)
     end
 
