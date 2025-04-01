@@ -7,7 +7,7 @@ module SpecialtyProduce
     attr_accessor :url, :doc
 
     def initialize(url)
-      @url = URI.open("https://specialtyproduce.com/r/Z4Z4WSZ5VCANS")
+      @url = URI.open(url)
       @doc = Nokogiri::HTML(@url)
     end
 
@@ -27,25 +27,31 @@ module SpecialtyProduce
       )
     end
 
-    def items_nodes
-      parsed_items[0...-7].map do |item|
-        parse_item(item)
-      end
+    def item_rows
+      @doc.xpath("//table[contains(@style, 'font-size: 0.9em')]/tr")
     end
 
-    def parse_item(item)
-      item_text = item.text.strip
+    def items_nodes
+      item_rows.map { |row| parse_item(row) }.compact
+    end
 
-      name_price = item_text.match(/^(.*?)\s(?:\d+\.\d+ x .*? @ .*?\s+)?([\d\.]+)$/)
+    def parse_item(row)
+      columns = row.css("td")
+      return nil if columns.size < 2
 
-      quantity_match = item_text.match(/(\S+)\s*x\s*([\d\.]+\s*(?:oz|lb)|oz|lb|bunch|bulb|gal)/)
+      raw_name = columns[0].text.strip
+      price_string = columns[1].text.strip.gsub(/[^0-9.]/, "")
+
+      quantity_match = raw_name.match(/(?<qty>[\d\.]+)\s*x\s*(?<unit>oz|lb|bunch|bulb|gal|ea|each)\s*@\s*[\d\.]+/)
+
+      name = raw_name.gsub(/[\d\.]+\s*x\s*(?:oz|lb|bunch|bulb|gal|ea|each)\s*@\s*[\d\.]+/, "").strip
 
       {
-        name: name_price[1].strip,
-        price: name_price[2].strip,
-        qty: quantity_match[1] ? quantity_match[1].strip : "1",
-        unit_type: enum_type(quantity_match[2])
-      } if name_price
+        name: name,
+        price: BigDecimal(price_string),
+        qty: quantity_match ? BigDecimal(quantity_match[:qty]) : 1,
+        unit_type: quantity_match ? enum_type(quantity_match[:unit]) : :per
+      }
     end
 
     def enum_type(str)
@@ -57,29 +63,23 @@ module SpecialtyProduce
     end
 
     def sales_tax
-      parsed_items[-6].text.strip.split("\r\n").last.strip
+      row = @doc.at_xpath("//td[contains(text(), 'Sales Tax')]/following-sibling::td")
+      row ? row.text.strip : "0.00"
     end
 
     def total_price
-      parsed_items[-3].text.match(/\$\s*([\d\.]+)/)[1]
+      row = @doc.at_xpath("//tr[td//b[contains(text(), 'Total')]]/td[2]")
+      raw_price = row ? row.text.strip : "0.00"
+      BigDecimal(raw_price.gsub(/[^0-9.]/, ""))
+    end
+
+    def purchase_date
+      date_td = @doc.at_xpath("//td[contains(text(), 'Date:')]")
+      date_td ? date_td.text.match(/(\d{1,2}\/\d{1,2}\/\d{4})/)[1] : nil
     end
 
     def receipt_number
       @doc.css("title")[0].children.text.split(" ")[1]
-    end
-
-    def purchase_date
-      parsed_items[-1].text.match(/Date:(\d{1,2}\/\d{1,2}\/\d{4})/)[1]
-    end
-
-    def parsed_items
-      arr = []
-
-      @doc.css("tr").each do |item|
-        arr << item
-      end
-
-      arr
     end
   end
 end

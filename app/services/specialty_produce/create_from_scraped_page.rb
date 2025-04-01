@@ -5,6 +5,8 @@ module SpecialtyProduce
     end
 
     def call
+      return if Receipt.exists?(receipt_number: @parsed_data.receipt_number)
+
       receipt = Receipt.create!(
         receipt_number: @parsed_data.receipt_number,
         purchase_date: DateTime.strptime(@parsed_data.purchase_date, "%m/%d/%Y"),
