@@ -12,7 +12,6 @@ async function fetchGraphQL(text, variables) {
     }),
   });
 
-  // Get the response as JSON
   return await response.json();
 }
 
