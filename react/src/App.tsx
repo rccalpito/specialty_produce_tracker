@@ -1,5 +1,5 @@
 import './App.css';
-import { ReceiptLineChart } from './components/receiptLineChart';
+import { ReceiptLineChart } from './components/receiptLineChart/receiptLineChart';
 
 function App() {
 
