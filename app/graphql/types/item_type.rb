@@ -3,7 +3,7 @@ module Types
     field :id, ID, null: false
     field :qty, Integer
     field :name, String
-    field :unit_type, Integer
+    field :unit_type, String
     field :price, Float
     field :receipt, ReceiptType, null: false
   end
