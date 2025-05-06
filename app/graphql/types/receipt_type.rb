@@ -6,6 +6,6 @@ module Types
     field :purchase_date, GraphQL::Types::ISO8601DateTime
     field :total_price, Float
     field :receipt_number, String
-    field :items, [Types::ItemType], null: false
+    field :items, [ Types::ItemType ], null: false
   end
 end
