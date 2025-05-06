@@ -44,5 +44,5 @@ group :test do
   gem "shoulda-matchers", "~> 6.5"
 end
 
-gem "graphql", "~> 2.4"
+gem "graphql", "~> 2.5"
 gem "graphiql-rails"

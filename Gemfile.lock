@@ -113,7 +113,7 @@ GEM
       logger
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
-    fiber-storage (1.0.0)
+    fiber-storage (1.0.1)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -121,7 +121,7 @@ GEM
       activesupport (>= 6.1)
     graphiql-rails (1.10.4)
       railties
-    graphql (2.4.15)
+    graphql (2.5.6)
       base64
       fiber-storage
       logger
@@ -375,7 +375,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   graphiql-rails
-  graphql (~> 2.4)
+  graphql (~> 2.5)
   kamal
   nokogiri
   pg (~> 1.1)
