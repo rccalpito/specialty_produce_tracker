@@ -2,7 +2,7 @@ require "open-uri"
 
 module SpecialtyProduce
   class Scrape
-    ReceiptData = Struct.new(:items, :sales_tax, :total_price, :receipt_number, :purchase_date, keyword_init: true)
+    ReceiptData = Struct.new(:items, :sales_tax, :total_price, :receipt_number, :purchase_date, :unit_price, keyword_init: true)
 
     attr_accessor :url, :doc
 
@@ -42,7 +42,7 @@ module SpecialtyProduce
       raw_name = columns[0].text.strip
       price_string = columns[1].text.strip.gsub(/[^0-9.]/, "")
 
-      quantity_match = raw_name.match(/(?<qty>[\d\.]+)\s*x\s*(?<unit>oz|lb|bunch|bulb|gal|ea|each)\s*@\s*[\d\.]+/)
+      quantity_match = raw_name.match(/(?<qty>[\d\.]+)\s*x\s*(?<unit>oz|lb|bunch|bulb|gal|ea|each)\s*@\s*(?<unit_price>[\d\.]+)/)
 
       name = raw_name.gsub(/[\d\.]+\s*x\s*(?:oz|lb|bunch|bulb|gal|ea|each)\s*@\s*[\d\.]+/, "").strip
 
@@ -50,7 +50,8 @@ module SpecialtyProduce
         name: name,
         price: BigDecimal(price_string),
         qty: quantity_match ? BigDecimal(quantity_match[:qty]) : 1,
-        unit_type: quantity_match ? enum_type(quantity_match[:unit]) : :per
+        unit_type: quantity_match ? enum_type(quantity_match[:unit]) : :per,
+        unit_price: quantity_match ? BigDecimal(quantity_match[:unit_price]) : BigDecimal(price_string)
       }
     end
 
