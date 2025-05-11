@@ -1,10 +1,10 @@
 import './App.css';
-import { ReceiptLineChart } from './components/receiptLineChart/receiptLineChart';
+import ReceiptPage from './Pages/ReceiptPage/ReceiptPage';
 
 function App() {
 
   return (
-    <ReceiptLineChart/>
+    <ReceiptPage />
   );
 }
 
