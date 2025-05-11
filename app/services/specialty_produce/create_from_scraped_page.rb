@@ -20,7 +20,8 @@ module SpecialtyProduce
           price: item_data[:price],
           qty: item_data[:qty],
           unit_type: item_data[:unit_type],
-          receipt: receipt
+          receipt: receipt,
+          unit_price: item_data[:unit_price]
         )
       end
 

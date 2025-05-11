@@ -5,6 +5,7 @@ module Types
     field :name, String
     field :unit_type, String
     field :price, Float
+    field :unit_price, Float
     field :receipt, ReceiptType, null: false
   end
 end
